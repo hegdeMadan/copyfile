@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <body>
+    <div id="root"></div>
+    <p> Hello! </p>
+    <input id="source" type="text" placeholder="source path" />
+    <input id="destination" type="text" placeholder="destination path" />
+    <br>
+    <input type="radio" id="cp" name="type" value="cp">
+    <label for="male">CP</label><br>
+    <input type="radio" id="scp" name="type" value="scp">
+    <label for="female">SCP</label><br>
+
+    <button id="copy"> Submit </button>
+    <script>
+      const copyButtonInstance = document.getElementById('copy')
+
+      copyButtonInstance.addEventListener('click', function() {
+        const sourcePath = document.getElementById('source')
+        const destinationPath = document.getElementById('destination')
+
+        const cp = document.getElementById('cp');
+        const scp = document.getElementById('scp');
+        console.log('check:: ', scp, scp.checked)
+        const selectedType = cp.checked ? 'cp' : 'scp'
+
+        console.log('input', sourcePath.value)
+        console.log('input', destinationPath.value)
+        axios({
+          method: 'post',
+          url: '/api/fileTransfer',
+          data: {
+            sourcePath: sourcePath.value,
+            destinationPath: destinationPath.value,
+            type: selectedType
+          }
+        }).then(res => {
+          console.log('success', res)
+        })
+        .catch(err => console.log('failed', err))
+      });
+    </script>
+  </body>
+</html>
